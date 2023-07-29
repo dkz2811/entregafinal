@@ -1,16 +1,15 @@
 <script setup>
-import {reactive, onMounted } from 'vue'
 
 const emit = defineEmits(['getSelectedItem'])
-const state = reactive({
-          devSpecs:"",
-          item:{
-            id:0,
-            model:"",
-            price:0,
-            stock:0,
-          }
-      })
+// const state = reactive({
+//           devSpecs:"",
+//           item:{
+//             id:0,
+//             model:"",
+//             price:0,
+//             stock:0,
+//           }
+//       })
 
       const props = defineProps({
         button: String,
@@ -23,15 +22,15 @@ const state = reactive({
         specs: String,
       })
 
-      onMounted(()=>{
-        state.devSpecs = props.specs.split(',');
-        state.item.stock = props.stock;
-      })
+      // onMounted(()=>{
+      //   state.devSpecs = props.specs.split(',');
+      //   state.item.stock = props.stock;
+      // })
 
       const SubmitEvent =()=>{    
           if(props.button === "Add to Cart")
           {
-            state.item.stock -= 1;
+            //state.item.stock -= 1;
             let item = { id: props.id,
                          model: props.model, 
                          price: props.price
@@ -58,12 +57,12 @@ const state = reactive({
   <div class="card mb-2">
     <div class="card-body" >
       <h5 class="card-title">{{ props.model }}</h5>
-      <img class="card-img-top" :src="picture" :alt="model">
+      <img class="card-img-top" :src="props.picture" :alt="props.model">
       <p class="text-start" > Price: ${{ props.price }}</p>
       <div>
         <p class="text-start" v-if="props.stock > 0"> Stock: {{ props.stock }}</p>
         <p class="text-start text-danger" v-else > Out of stock</p>
-        <p class="text-start" v-if="button === 'Modify'">ID: {{ id }}</p>
+        <p class="text-start" v-if="props.button === 'Modify'">ID: {{ props.id }}</p>
       </div>
       <button class="btn btn-success mt-3" :disabled="props.stock < 1 && button !== 'Modify' ? true : false" @click="SubmitEvent">{{props.button}}</button>
       <div >

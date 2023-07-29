@@ -116,7 +116,6 @@ const clearForm = () =>{
                             </div>
                         </div>
                 </div>
-                
                 <div class="form-group">
                         <div class="intput-group mb-1">
                             <div class="input-grou-prepend">

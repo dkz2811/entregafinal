@@ -5,7 +5,9 @@ import user from './modules/user'
 import navbar from './modules/navbar'
 
 export default createStore({
-    state: {},
+    state: {
+        BASE_URL: import.meta.env.VITE_MOCKAPI_URL,
+    },
     modules: {
         cart,
         product,

@@ -11,7 +11,7 @@
         getNavBar: state => { return state.navBar },
     }
     const mutations = {
-        resetNavBar: (state) => {
+        resetNavBar: state => {
             state.navBar[1].visible = true;
             state.navBar[2].visible = true;
             state.navBar[3].visible = true;

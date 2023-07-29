@@ -9,7 +9,7 @@
     const mutations = {
         addProductToShoppingList: (state, payload) => {  state.shoppingList.push(payload); console.log("addProductToShoppingList mutation", state.shoppingList) },
         removeProductFromShoppingList: (state, payload) => { state.shoppingList.splice(payload, 1); },
-        clearCart: (state) => { state.shoppingList = [] },
+        clearCart: state => { state.shoppingList = [] },
         clearCartLocal: () => { localStorage.removeItem('cart') },
         setCartFromLocalStorage: (state, payload) => { state.shoppingList = payload },
         setCartFromBackEnd: (state, payload) => { state.shoppingList = payload },
