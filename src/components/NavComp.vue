@@ -21,10 +21,10 @@ const store = useStore();
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0"
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" 
       v-for="link in getNavBar" :key="link.comp">
-        <li class="nav-item">
-            <router-link  v-if="link.visible"
+      <li class="nav-item" v-if="link.visible">
+          <router-link
                     class="nav-link active" 
                     :to="link.to"><ALabel 
                     :title="link.title " 

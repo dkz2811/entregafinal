@@ -85,7 +85,6 @@ const addDevice = () =>{
                 brand: state.device.brand,
                 specs: state.device.specs.trim()
             } 
-            console.log(aDevice)
             store.dispatch('addDevice', aDevice);
             store.dispatch('getDevices');
         }
@@ -217,7 +216,6 @@ textarea {
     resize: none;
     overflow: hidden;
     background-color: transparent;
-    border: 2px solid #000;
     border-radius: 4px;
     font-family: "Inconsolata", monospace;
     font-size: 1rem;

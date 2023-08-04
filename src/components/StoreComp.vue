@@ -5,10 +5,10 @@ import {computed, onMounted} from 'vue'
 
 const store = useStore();
 onMounted(() => store.dispatch('getDevices'))
+
 const getStockedDevices = computed(() => store.getters.getStockedDevices)
 const getSelectedItem = (item) => {
             store.dispatch('addProductToShoppingList', item)
-            console.log('dispatched addProductToShoppingList', item )
         }
 </script>
 <template >

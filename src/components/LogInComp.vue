@@ -44,11 +44,11 @@ const onSubmit = async () => {
      
 const checkLogin =() => {
   store.dispatch('logIn', state.login)
-  console.log("login success: ", store.state.user)
 }
 </script>
   
   <template>
+    <div><p>Usuario admin para crud: admin@coder.com/Admin1234</p></div>
       <div class="login-container">
         <form @submit.prevent="onSubmit">
             <div class="form-group">
@@ -94,7 +94,7 @@ const checkLogin =() => {
   <style scoped>
   .login-container {
       max-width: 400px;
-      /* margin: 0 auto; */
+      margin: 0 auto;
       padding: 20px;
       border: 1px solid #ccc;
     }

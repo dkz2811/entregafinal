@@ -14,7 +14,6 @@ const delSelectedItem = (pos) =>{
     store.dispatch('removeProductFromShoppingList', pos);
 }
 const checkOut = () =>{
-    console.log("getShoppingListTotal", getShoppingListTotal)
     if ( getShoppingListTotal.value > 0 ){
     if( isLogged.value ){
         store.dispatch('checkOut')
@@ -30,7 +29,7 @@ const checkOut = () =>{
             <div class="container col-12">
                 <div>
                     <div class="col-md-6">
-                        <div class="cart-container">
+                        <div class="cart-container text-center">
                             <div class="card mb-2" style="width: 18rem;">
                                 <div class="card-body">
                                     <h5 class="card-title">Your Cart</h5>
@@ -39,8 +38,8 @@ const checkOut = () =>{
                                             <div>
                                                 <li class="list-group-item">
                                                     <div class="d-flex">
-                                                        <span class="mr-2"> Item:{{ i+1 }} {{ item.model }}  ${{ item.price }} </span>
-                                                        <button class="btn btn btn-outline-danger float-right" @click="delSelectedItem(i)"> Remove</button> 
+                                                        <div><span class="mr-2"> Item:{{ i+1 }} {{ item.model }}  ${{ item.price }} </span></div>
+                                                        <div><button class="btn btn btn-outline-danger float-right" @click="delSelectedItem(i)"> Remove</button></div> 
                                                     </div>
                                                 </li>
                                             </div>
@@ -94,9 +93,9 @@ const checkOut = () =>{
         </template>
 <style scoped>
 .cart-container {
-    max-width: 300px;
+    max-width: 400px;
     margin: 0 auto;
-    margin-top: 1.3rem;
+    padding: 20px;
 }
 .container {
     padding: 20px;
@@ -104,6 +103,5 @@ const checkOut = () =>{
 
 .cart-container {
     margin-bottom: 20px;
-    /* Estilos adicionales para el contenedor de la cesta */
 }
 </style>

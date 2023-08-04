@@ -1,16 +1,6 @@
 <script setup>
 
 const emit = defineEmits(['getSelectedItem'])
-// const state = reactive({
-//           devSpecs:"",
-//           item:{
-//             id:0,
-//             model:"",
-//             price:0,
-//             stock:0,
-//           }
-//       })
-
       const props = defineProps({
         button: String,
         id: String,
@@ -21,22 +11,14 @@ const emit = defineEmits(['getSelectedItem'])
         brand:String,
         specs: String,
       })
-
-      // onMounted(()=>{
-      //   state.devSpecs = props.specs.split(',');
-      //   state.item.stock = props.stock;
-      // })
-
       const SubmitEvent =()=>{    
           if(props.button === "Add to Cart")
           {
-            //state.item.stock -= 1;
             let item = { id: props.id,
                          model: props.model, 
                          price: props.price
                         }
             emit('getSelectedItem', item)
-            console.log('emitted getSelectedItem', item )
           }
           if (props.button === 'Modify'){
             let item = { 
@@ -48,7 +30,6 @@ const emit = defineEmits(['getSelectedItem'])
               brand: props.brand,
               specs: props.specs
             }
-              console.log('emitted getSelectedItem', item )
               emit('getSelectedItem', item)
             }
           }

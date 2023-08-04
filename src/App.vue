@@ -1,5 +1,12 @@
 <script setup>
 import NavComp from "./components/NavComp.vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+const getUser = () => store.dispatch('getUser')
+const setCartFromLocalStorage = () => store.dispatch('setCartFromLocalStorage')
+getUser()
+setCartFromLocalStorage()
 </script>
 
 <template>
@@ -25,7 +32,7 @@ header {
 
 .container {
   position: relative;
-  padding-top: 1rem;
+  padding-top: 4rem;
 }
 
 nav {

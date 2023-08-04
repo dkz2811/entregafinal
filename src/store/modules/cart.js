@@ -3,11 +3,12 @@
     }
     const getters = {
         getShoppingList: state => { return state.shoppingList },
-        getShoppingListTotal: state => { return state.shoppingList.reduce((total, device) => { return total + device.price}, 0);},
+        getShoppingListTotal: state => { return state.shoppingList !== null? state.shoppingList.reduce((total, device) => { return total + device.price}, 0) : 0},
         getShoppingListCount: state => { return state.shoppingList.length },
+        getShoppingCartFromLocalStorage: () => { return JSON.parse(localStorage.getItem('cart')) || [] },
     }
     const mutations = {
-        addProductToShoppingList: (state, payload) => {  state.shoppingList.push(payload); console.log("addProductToShoppingList mutation", state.shoppingList) },
+        addProductToShoppingList: (state, payload) => {  state.shoppingList.push(payload);},
         removeProductFromShoppingList: (state, payload) => { state.shoppingList.splice(payload, 1); },
         clearCart: state => { state.shoppingList = [] },
         clearCartLocal: () => { localStorage.removeItem('cart') },
@@ -17,17 +18,16 @@
     const actions = {
         setCartFromBackEnd: (context, payload) => {
             context.commit('setCartFromBackEnd', payload)
-            context.commit('setNavBarCart', payload.length)
+            context.commit('setNavBarCart', payload === null ? 0 : payload.length)
         },
         setCartFromLocalStorage: (context) => {
-            let cart = JSON.parse(localStorage.getItem('cart')) || null
-            if( cart !== null ){ 
+            let cart = JSON.parse(localStorage.getItem('cart')) || []
+            if( cart !== [] ){ 
                 context.commit('setCartFromLocalStorage', cart)
                 context.commit('setNavBarCart', cart.length)
             }
         },
         addProductToShoppingList: (context, payload) => {
-            console.log("addProductToShoppingList action", payload)
             context.commit('addProductToShoppingList', payload)
             context.commit('updateStockDown', payload)
             context.dispatch('setNavBarCart', context.state.shoppingList.length)
@@ -46,7 +46,6 @@
             context.dispatch('updateStock')
         },
         getRecipt: (context) => {
-            console.log("getRecipt cart.js")
             let recipt = { id: Date.now(), date: new Date().toLocaleDateString(), total: context.getters.getShoppingListTotal, detail:[] }
             for ( let item of context.state.shoppingList) { recipt.detail.push({ qtty: 1, product_id: item.id, product_name: item.model, price: item.price }) }
             context.commit('addRecipt',recipt);

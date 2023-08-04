@@ -22,14 +22,16 @@ const state = reactive({
     password2 :"",
 })
 
+const alpha = helpers.regex(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+
 const rules = computed (() => {
         return {
             user:{
-                name: { required : helpers.withMessage("Name is required", required) },
-                email: { required : helpers.withMessage("Email is required", required) , email: helpers.withMessage("Email must be valid", email)},
-                password:{ required, minLength: minLength(3)}
+                name: { required : helpers.withMessage(" Name is required ", required) },
+                email: { required : helpers.withMessage(" Email is required ", required) , email: helpers.withMessage(" Email must be valid ", email)},
+                password:{ required, alpha : helpers.withMessage(" Password must include uppercase and lowercase letters numbers and/or symbols, at least 8 characters ", alpha)}
             },
-            password2:{ required, minLength: sameAs(state.user.password)}
+            password2:{ required,  sameAs : helpers.withMessage(" Passwords must be identical ", sameAs(state.user.password))}
         }   
     })
 
@@ -46,7 +48,6 @@ onUpdated(() => {
       }
     })
 
-// const checkPassword = (value) => { return /(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/.test(value);}
 const registerUser = () => { store.dispatch('userExists', state.user);}
 
 </script>
@@ -84,9 +85,10 @@ const registerUser = () => { store.dispatch('userExists', state.user);}
                             </div>          
                             <input type="password" class="form-control" v-model="state.password2" autocomplete="re-enter password" required name="password2">
                         </div> 
-                </div>  
+                </div>
+                <div class="col-md-12 text-center"><slot name="errors" v-for="error of v$.$errors" :key="error.$uid">{{ error.$message  }}</slot></div>
                 <div v-if="isRegistered"><span>This email is already registered</span></div>
-                <button class="btn btn-success mt-3" type="submit" :disabled="isLoading">Send</button>
+                <div class="col-md-12 text-center"><button class="btn btn-success mt-3" type="submit" :disabled="isLoading">Send</button></div>
             </div>
         </form>
 </template>

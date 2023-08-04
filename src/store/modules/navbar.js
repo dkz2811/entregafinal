@@ -1,7 +1,7 @@
     const state = {
         navBar:[
-            {title: "Store",comp:"StoreComp", to:"/", visible:true},
-            {title: "Register",comp:"RegisterComp", to:"/register", visible:true},
+            {title:"Store",comp:"StoreComp", to:"/", visible:true},
+            {title:"Register",comp:"RegisterComp", to:"/register", visible:true},
             {title:"Log In",comp: "LogInComp", to:"/log-in", visible:true},
             {title:"Your Cart",comp: "CartComp", to: "/shopping-cart", value: 0, visible:true},
             {title:"ProductMgmt", comp: "CrudProduct", to: "/product-mgmt", visible:false}

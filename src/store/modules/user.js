@@ -53,7 +53,10 @@ const state = {
     const actions = {
       getUser: (context) => {
         let user = JSON.parse(localStorage.getItem('user')) || null
-        context.commit('setUser', user)
+        if (user !== null) {
+          context.commit('setUser', user)
+          context.dispatch ('setLoginOkFlags', user)
+        }
       },
       resetLoginFlags: (context) => {
         context.commit('isLoading', true)
@@ -74,25 +77,24 @@ const state = {
         .then(users => {
           let neverDoThisAllUsers = users;
           let user = neverDoThisAllUsers.find(user => user.email === payload.email)
-          console.log("user => UserExists", user ? "already registered" : "not registered" )
           user ? context.commit('isRegistered', true) : context.dispatch("registerUser", payload)
         }).catch(err => console.log(err))
       },
       registerUser: (context, payload) => {
+        let cart = []
+        cart = context.getters.getShoppingCartFromLocalStorage
         fetch(context.state.BASE_URL + '/users', {
           method: "POST",
-          body: JSON.stringify({name: payload.name, email: payload.email, password: payload.password}),
+          body: JSON.stringify({name: payload.name, email: payload.email, password: payload.password, cart: cart}),
           headers: {"Content-type": "application/json"}})
           .then(res => res.json())
           .then(user => {
-            console.log("user => RegisterUser", user)
             context.dispatch ('setLoginOkFlags',  { id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin, purchases: user.purchases, isLogged: true })
+            localStorage.setItem('user', JSON.stringify({ id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin, purchases: user.purchases, isLogged: true, cart: cart }));
           }).catch(err => console.log(err))
           .finally(() => context.commit('isLoading', false))
         },
         updateUser: (context) => {
-          console.log("checkout user.js")
-          console.log("user => updateUser", context.state.user)
           fetch(context.state.BASE_URL + '/users/' + context.state.user.id, {
             method: "PUT",
             body: JSON.stringify(context.state.user),
@@ -104,7 +106,6 @@ const state = {
             .finally(() => context.commit('isLoading', false))
           },
           logIn: (context, payload) => {
-            console.log("user => logIn", payload)
             context.dispatch('resetLoginFlags')
             fetch(context.state.BASE_URL +'/users')
             .then(res => res.json())
@@ -114,9 +115,8 @@ const state = {
                 if(user.password === payload.password){
                   let x = { id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin, purchases: user.purchases, isLogged: true, cart: user.cart }
                   context.dispatch ('setLoginOkFlags', x )
-                  
-                  context.dispatch('setCartFromBackEnd', x.cart === null ? [] : x.cart)
                   localStorage.setItem('user', JSON.stringify(x));
+                  x.cart.length > 0 ? context.dispatch('setCartFromBackEnd', x.cart) : context.dispatch('setCartFromLocalStorage')
                 }else{
                   context.commit('loginError', true)
                   context.commit('loginSuccess', false)
@@ -132,7 +132,7 @@ const state = {
             .finally(() => context.commit('isLoading', false))
           },
           userLogOut: (context) => { 
-            let cart = JSON.parse(localStorage.getItem('cart')) 
+            let cart = JSON.parse(localStorage.getItem('cart')) || []
             context.commit('setUserCart', cart)
             context.dispatch('updateUser')
             context.commit('setUser', { id: '', name: '', email: '', isAdmin: false, purchases: [], isLogged: false, cart: [] })
@@ -140,7 +140,6 @@ const state = {
             context.commit('clearCart')
             context.dispatch('resetLoginFlags')
             context.commit('resetNavBar')
-            context.commit('isLoading', false)
             localStorage.removeItem('user')
           },
         }
