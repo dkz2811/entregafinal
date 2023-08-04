@@ -28,4 +28,4 @@ coverage
 *.sw?
 
 .env
-.env.production
+.env.production.local
