@@ -4,6 +4,7 @@ import store from '../store/store.js'
 
 const router = createRouter({
   history: createWebHistory(),
+  base: '/https://dkz2811.github.io',
   routes: [
     {
       path: '/',
